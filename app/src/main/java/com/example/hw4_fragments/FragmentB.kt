@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.example.hw4_fragments.databinding.FragmentABinding
+import com.example.hw4_fragments.databinding.FragmentBBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,9 @@ class FragmentB : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding: FragmentBBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +40,33 @@ class FragmentB : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_b, container, false)
+
+        _binding = FragmentBBinding.inflate(inflater)
+        requireActivity().title = FragmentB::class.java.simpleName
+        binding.buttonToFragmentA.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<FragmentA>(R.id.fragment_container)
+                addToBackStack(FragmentA::class.java.simpleName)
+            }
+        }
+
+        val bundle = Bundle().apply {
+            putString("param1", "Hello Fragment C")
+        }
+
+        binding.buttonToFragmentC.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<FragmentC>(containerViewId = R.id.fragment_container, args = bundle)
+                addToBackStack(FragmentC::class.java.simpleName)
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

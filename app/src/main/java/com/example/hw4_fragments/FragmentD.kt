@@ -5,6 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.example.hw4_fragments.databinding.FragmentABinding
+import com.example.hw4_fragments.databinding.FragmentBBinding
+import com.example.hw4_fragments.databinding.FragmentDBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +27,9 @@ class FragmentD : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding: FragmentDBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -32,9 +41,22 @@ class FragmentD : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_d, container, false)
+    ): View {
+        _binding = FragmentDBinding.inflate(inflater)
+        requireActivity().title = FragmentD::class.java.simpleName
+        binding.buttonToFragmentA.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<FragmentA>(R.id.fragment_container)
+                parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

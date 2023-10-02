@@ -27,12 +27,12 @@
     <Button
         android:id="@+id/button_to_fragment_C"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="To Fragment C"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/button_to_fragment_A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guide_line"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/button_to_fragment_A"
         android:layout_marginHorizontal="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
